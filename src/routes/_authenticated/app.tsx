@@ -4,7 +4,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { Compass, Gamepad2, LogOut, Plus } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { meQuery, myCommunitiesQuery, allCommunitiesQuery, canCreateCommunity, initials, TWO_DAYS_MS } from "@/lib/nexus";
+import { meQuery, myCommunitiesQuery, allCommunitiesQuery, initials } from "@/lib/nexus";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -93,9 +93,6 @@ function CreateDialog({ open, onOpenChange, me }: { open: boolean; onOpenChange:
   const [description, setDescription] = useState("");
   const qc = useQueryClient();
   const navigate = useNavigate();
-  const allowed = canCreateCommunity(me.created_at);
-  const remainingH = Math.ceil((TWO_DAYS_MS - (Date.now() - new Date(me.created_at).getTime())) / 3600000);
-
   async function create(e: React.FormEvent) {
     e.preventDefault();
     const { data, error } = await supabase.from("communities").insert({ name: name.trim(), description: description.trim() || null, owner_id: me.id }).select().single();
@@ -111,18 +108,11 @@ function CreateDialog({ open, onOpenChange, me }: { open: boolean; onOpenChange:
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader><DialogTitle>Criar comunidade</DialogTitle></DialogHeader>
-        {allowed ? (
-          <form onSubmit={create} className="space-y-3">
-            <Input placeholder="Nome da comunidade" value={name} onChange={(e) => setName(e.target.value)} minLength={2} maxLength={40} required />
-            <Input placeholder="Descrição (opcional)" value={description} onChange={(e) => setDescription(e.target.value)} maxLength={140} />
-            <Button type="submit" variant="neon" className="w-full">Criar</Button>
-          </form>
-        ) : (
-          <p className="text-muted-foreground">
-            Sua conta precisa ter pelo menos 2 dias para criar comunidades. Faltam cerca de{" "}
-            <span className="text-neon">{remainingH}h</span>. Enquanto isso, explore e entre em comunidades existentes!
-          </p>
-        )}
+        <form onSubmit={create} className="space-y-3">
+          <Input placeholder="Nome da comunidade" value={name} onChange={(e) => setName(e.target.value)} minLength={2} maxLength={40} required />
+          <Input placeholder="Descrição (opcional)" value={description} onChange={(e) => setDescription(e.target.value)} maxLength={140} />
+          <Button type="submit" variant="neon" className="w-full">Criar</Button>
+        </form>
       </DialogContent>
     </Dialog>
   );

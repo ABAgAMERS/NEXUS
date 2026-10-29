@@ -8,6 +8,13 @@
       "when": 1793292826958,
       "tag": "0000_nexus_schema",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1793294193340,
+      "tag": "0001_remove_community_age_gate",
+      "breakpoints": true
     }
   ]
 }

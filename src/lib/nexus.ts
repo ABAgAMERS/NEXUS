@@ -45,9 +45,8 @@ export const channelsQuery = (cid: string) =>
     },
   });
 
-export const TWO_DAYS_MS = 2 * 24 * 60 * 60 * 1000;
-export function canCreateCommunity(createdAt: string, now = Date.now()) {
-  return now - new Date(createdAt).getTime() >= TWO_DAYS_MS;
+export function canCreateCommunity() {
+  return true;
 }
 
 export function initials(name: string) {

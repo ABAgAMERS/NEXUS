@@ -15,7 +15,7 @@ export const Route = createFileRoute("/")({
 });
 
 const features = [
-  { icon: Users, title: "Comunidades", text: "Crie a sua após 2 dias de conta." },
+  { icon: Users, title: "Comunidades", text: "Crie a sua em segundos." },
   { icon: MessagesSquare, title: "Chat & canais", text: "Chat geral e canais de texto em tempo real." },
   { icon: Headphones, title: "Voz", text: "Entre num canal de voz e fale com a squad." },
 ];
